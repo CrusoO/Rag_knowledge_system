@@ -1,0 +1,29 @@
+services:
+  # Cruso Backend API
+  - type: web
+    name: cruso-backend
+    env: python
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_ENVIRONMENT
+        sync: false
+      - key: PINECONE_INDEX
+        value: cruso-documents
+    healthCheckPath: /health
+    
+databases:
+  # PostgreSQL Database (Free tier)
+  - name: cruso-db
+    databaseName: cruso
+    user: cruso
+
