@@ -3,11 +3,11 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16
-    container_name: rag-postgres
+    container_name: cruso-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: rag_chatbot
+      POSTGRES_DB: cruso
     ports:
       - "5432:5432"
     volumes:
@@ -20,12 +20,12 @@ services:
 
   backend:
     build: ./backend
-    container_name: rag-backend
+    container_name: cruso-backend
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
       - PINECONE_API_KEY=${PINECONE_API_KEY}
       - PINECONE_ENVIRONMENT=${PINECONE_ENVIRONMENT}
-      - PINECONE_INDEX=${PINECONE_INDEX}
+      - PINECONE_INDEX=${PINECONE_INDEX:-cruso-documents}
     ports:
       - "8000:8000"
     volumes:
